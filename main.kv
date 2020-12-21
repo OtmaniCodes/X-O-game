@@ -1,0 +1,17 @@
+#: include 'screens\home.kv'
+#: include 'screens\solo.kv'
+#: include 'screens\poly.kv'
+
+
+FloatLayout:
+        ScreenManager:
+                id: screen_manager
+                Home:
+                        name: 'home'
+                        id: home
+                Soloplayer:
+                        name: 'solo'
+                        id: solo
+                Multiplayer:
+                        name: 'poly'
+                        id: poly

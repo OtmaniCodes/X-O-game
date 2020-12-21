@@ -1,0 +1,31 @@
+#: import utils kivy.utils
+
+<Soloplayer>:
+	
+	FloatLayout:
+		canvas.before:
+			Color:
+				rgba: utils.get_color_from_hex("#847878")
+			Rectangle:
+				size: self.size
+				pos: self.pos
+		Button:
+			pos_hint: {"x":.01, "top":.99}
+			size_hint: [None, None]
+			height: 40
+			width: 80
+			text: "Go Back"
+			color: [0,0,0,1] if self.state != 'down' else utils.get_color_from_hex("#847878")
+			background_normal: ''
+			background_down: ''
+			background_color: utils.get_color_from_hex("#847878")
+			on_release:
+				app.change_screen('home', 'down', 'solo')
+		BoxLayout:
+			id: box
+			orientation: "vertical"
+			spacing:5
+			size_hint: [None, None]
+			width: 300
+			height:300
+			pos_hint: {'center_x':0.5, 'center_y':0.6}
