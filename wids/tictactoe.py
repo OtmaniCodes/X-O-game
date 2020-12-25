@@ -4,7 +4,8 @@ from itertools import permutations as per
 class TicTacToe:
     player_moves1 = []
     player_moves2 = []
-    score = 0
+    score1 = 0
+    score2 = 0
     crossed_boxs = 0
     uncrossed_boxs = 9
 
@@ -22,6 +23,10 @@ class TicTacToe:
             for case2 in per(case, len(case)):
                 for combination in per(lista, len(lista)):
                     if combination == case2:
+                        if turn == 1:
+                            self.score1 += 1
+                        else:
+                            self.score2 += 1
                         return True
                     else:
                         pass
@@ -32,3 +37,9 @@ class TicTacToe:
             print('tie')
         else:
             return False
+
+    def reset(self):
+        self.player_moves1 = []
+        self.player_moves2 = []
+        self.crossed_boxs = 0
+        self.uncrossed_boxs = 9

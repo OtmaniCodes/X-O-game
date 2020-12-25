@@ -4,6 +4,7 @@ from kivy.core.window import Window
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.clock import Clock
 from wids.options import OptionTable
+from wids.score import Score
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
 from wids.tictactoe import TicTacToe
@@ -26,9 +27,11 @@ class MyApp(App):
     mode = ""
     user_choice = ""
     btns_ids = []
-    turn = False
+    btns_ids2 = []
+    turn = True
     player1 = TicTacToe()
     player2 = TicTacToe()
+    winner = ''
 
     def build(self):
         Window.size = (360, 640)
@@ -39,7 +42,7 @@ class MyApp(App):
         if sc == 'home':
             self.reset_net(mode)
         manager = self.root.ids.screen_manager
-        manager.transition.duration = 0.5
+        manager.transition.duration = 3#0.5
         manager.transition.direction = way
         manager.current = sc
 
@@ -59,21 +62,30 @@ class MyApp(App):
                 for j in range(3):
                     btn = Button(text=f'{f}-{j}', background_normal='', color=[0, 0, 0, 0],
                                  background_down='', background_color=[1, 1, 1, 1])
+                    self.btns_ids2.append(btn)
                     btn.bind(on_release=self.change_icon)
                     box.add_widget(btn)
             net.box.add_widget(box)
 
     def computer_player(self):
-        available_moves = [x for x in self.btns_ids if x.background_normal == '']
+        available_moves = [
+            x for x in self.btns_ids2 if x.background_normal == '']
+        available_moves = list(set(available_moves))
         move_index = randint(0, len(available_moves))
-        self.change_icon(available_moves[move_index]) 
-    
+        print('available movs:', available_moves)
+        print('len:', len(available_moves))
+        print('index:', move_index)
+        self.change_icon(available_moves[move_index])
+
     def reset_net(self, mode):
         net = self.root.ids[mode].ids.box
         net.clear_widgets()
+        self.player1.reset()
+        self.player2.reset()
 
     def change_icon(self, idd):
         self.btns_ids.append(idd)
+        # self.btns_ids2.remove(idd)
         if self.user_choice == 'x':
             unchecked = 'imgs/x.png'
             checked = 'imgs/xc.png'
@@ -116,16 +128,42 @@ class MyApp(App):
         if res == True:
             self.check_boxes(moves)
 
+    def choose_img(self, samples):
+        x_img = ''
+        o_img = ''
+        if ('0-0' in samples and '0-2' in samples) or ('1-0' in samples and '1-2' in samples) or ('2-0' in samples and '2-2' in samples):
+            x_img = 'imgs/xch'
+            o_img = 'imgs/och'
+        elif ('0-0' in samples and '2-0' in samples) or ('0-1' in samples and '2-1' in samples) or ('0-2' in samples and '2-2' in samples):
+            x_img = 'imgs/xcv'
+            o_img = 'imgs/ocv'
+        elif ('0-0' in samples and '2-2' in samples):
+            x_img = 'imgs/xc'
+            o_img = 'imgs/oc'
+        elif ('0-2' in samples and '2-0' in samples):
+            x_img = 'imgs/xc2'
+            o_img = 'imgs/oc2'
+        return [x_img, o_img]
+
     def check_boxes(self, moves):
+        score = Score('win')
         boxes = []
         for move in moves:
             boxes.append(self.get_id(move, get_num=True))
+        imgs = self.choose_img(boxes)
         for idd in self.btns_ids:
             if idd.text in boxes:
                 if idd.background_normal == 'imgs/x.png':
-                    idd.background_normal = 'imgs/xc.png'
+                    idd.background_normal = imgs[0]+'.png'
+                    self.winner = 'x'
+                    score.open()
+                    print(f'winner is {self.winner} with SCORE:',
+                          self.player1.score1, self.player1.score2)
                 else:
-                    idd.background_normal = 'imgs/oc.png'
+                    idd.background_normal = imgs[1]+'.png'
+                    self.winner = 'o'
+                    print(f'winner is {self.winner} with SCORE:',
+                          self.player1.score1, self.player1.score2)
 
 
 if __name__ == '__main__':

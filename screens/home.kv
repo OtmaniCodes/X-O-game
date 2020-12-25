@@ -4,19 +4,24 @@
 	
 	FloatLayout:
 		canvas.before:
-			Color:
-				rgba: utils.get_color_from_hex("#847878")
 			Rectangle:
+				source: 'imgs/bg_img.png'
 				size: self.size
 				pos: self.pos
 		Label:
 			pos_hint: {"center_x":.5, "top":.95}
-			text: "Welcome To [size=45sp][color=#000000FF]X-O[/color][/size]"
+			text: "Welcome To [size=45sp][color=#FF0000FF]X-O[/color][/size]"
 			markup: True
 			size_hint: [.80, .1]
 			font_size: '40sp'
 			bold: True
 			color: [1,1,1,1]
+			canvas.before:
+				Color:
+					rgba: [0,0,0,1]
+				Rectangle:
+					size: self.width+35, self.height-5
+					pos: self.x-17.5, self.y+2.5
 
 		BoxLayout:
 			orientation: "vertical"
