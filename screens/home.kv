@@ -23,32 +23,41 @@
 					size: self.width+35, self.height-5
 					pos: self.x-17.5, self.y+2.5
 
-		BoxLayout:
-			orientation: "vertical"
-			spacing: 10
-			padding: 10
-			size_hint_y: None
-			height: self.minimum_height
+		FloatLayout:
+			# orientation: "vertical"
+			# spacing: 10
+			# padding: 10
+			size_hint: [1, 0.8]
 			pos_hint: {"top": .8}
 			Button:
+				id: btn1
+				xx: -0.8
 				background_normal: ""
+				background_color: [0,0,0,1]
 				color: [0,0,0,1]
 				text: "soloplayer".upper()
 				size_hint_y: None
 				bold: True
 				font_size: "25sp"
 				height: 50
+				size_hint_x: .8
+				pos_hint: {"top": .85, 'center_x':self.xx}
 				on_release:
 					app.change_screen('solo', 'up')
 					app.execute_show_options("solo")
 			Button:
+				id: btn2
+				xxx: 1.8
 				background_normal: ""
+				background_color: [0,0,0,1]
 				color: [0,0,0,1]
 				text: "multiplayer".upper()
 				size_hint_y: None
 				bold: True
 				font_size: "25sp"
 				height: 50
+				size_hint_x: .8
+				pos_hint: {"top": .65, 'center_x':self.xxx}
 				on_release:
 					app.change_screen('poly', 'up')
 					app.execute_show_options("poly")

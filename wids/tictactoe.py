@@ -1,44 +1,72 @@
 from itertools import permutations as per
+from wids.score import Score
 
 
 class TicTacToe:
     player_moves1 = []
     player_moves2 = []
-    score1 = 0
-    score2 = 0
+    winner = ''
     crossed_boxs = 0
     uncrossed_boxs = 9
+    app = ''
 
-    def win(self, turn):
+    def win(self, turn, app, mode):
+        self.app = app
+        self.mode = mode
         self.crossed_boxs += 1
         self.uncrossed_boxs -= 1
-        print(self.crossed_boxs, self.uncrossed_boxs)
         winning_cases = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6],
                          [1, 4, 7], [2, 4, 8], [0, 4, 8], [2, 4, 6]]
         if turn == 1:
             lista = self.player_moves1
         else:
             lista = self.player_moves2
+
         for case in winning_cases:
-            for case2 in per(case, len(case)):
-                for combination in per(lista, len(lista)):
-                    if combination == case2:
-                        if turn == 1:
-                            self.score1 += 1
-                        else:
-                            self.score2 += 1
+            for combination in list(per(lista, len(lista))):
+                for case2 in list(per(case, len(case))):
+                    if list(combination) == list(case2):
                         return True
                     else:
                         pass
         return False
 
+
+        # try this:  
+        
+        # count = 0
+        # wanted_line = ''
+        # btn_ids_txts = []
+        # for one in btn_ids:
+        #     btn_ids_txts.append(one.text)
+        # # btns_nums = map(lambda x: self.app.get_id(x), btn_ids_txts)
+
+        # btns_nums = []
+        # for _ in btn_ids_txts:
+        #     btns_nums.append(self.app.get_id(_))
+
+        # print(btn_ids_txts)
+        # print(btns_nums)
+        # for case in winning_cases:
+        #     for num in case:
+        #         if num in btns_nums:
+        #             count += 1
+        #     if count == 3:
+        #         wanted_line = case
+        #         break
+        #     else:
+        #         count = 0
+        # print(count)
+        # print(wanted_line)
+
     def tie(self):
         if self.crossed_boxs == 9 and self.uncrossed_boxs == 0:
-            print('tie')
+            self.app.open_score('tie', self.mode)
         else:
-            return False
+            pass
 
     def reset(self):
+        # resets everything
         self.player_moves1 = []
         self.player_moves2 = []
         self.crossed_boxs = 0

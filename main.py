@@ -4,10 +4,11 @@ from kivy.core.window import Window
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.clock import Clock
 from wids.options import OptionTable
-from wids.score import Score
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
 from wids.tictactoe import TicTacToe
+from wids.score import Score
+from animation.animation import MyAnimation
 from random import randint
 
 
@@ -27,7 +28,6 @@ class MyApp(App):
     mode = ""
     user_choice = ""
     btns_ids = []
-    btns_ids2 = []
     turn = True
     player1 = TicTacToe()
     player2 = TicTacToe()
@@ -38,11 +38,18 @@ class MyApp(App):
         Window.minimum_width, Window.minimum_height = (360, 640)
         return Builder.load_file('main.kv')
 
+    def on_start(self):
+        target1 = self.root.ids.home.ids.btn1
+        target2 = self.root.ids.home.ids.btn2
+        anime = MyAnimation(target1, target2)
+        anime.animate_widget()
+
+
     def change_screen(self, sc, way, mode=''):
         if sc == 'home':
             self.reset_net(mode)
         manager = self.root.ids.screen_manager
-        manager.transition.duration = 3#0.5
+        manager.transition.duration = 0.5
         manager.transition.direction = way
         manager.current = sc
 
@@ -62,7 +69,6 @@ class MyApp(App):
                 for j in range(3):
                     btn = Button(text=f'{f}-{j}', background_normal='', color=[0, 0, 0, 0],
                                  background_down='', background_color=[1, 1, 1, 1])
-                    self.btns_ids2.append(btn)
                     btn.bind(on_release=self.change_icon)
                     box.add_widget(btn)
             net.box.add_widget(box)
@@ -103,7 +109,7 @@ class MyApp(App):
         if self.turn == False and self.mode == 'solo':
             self.computer_player()
 
-    def get_id(self, member, get_num=False):
+    def get_id(self, member, get_num= False):
         ids = {'0-0': 0, '0-1': 1, '0-2': 2, '1-0': 3,
                '1-1': 4, '1-2': 5, '2-0': 6, '2-1': 7, '2-2': 8}
         if get_num == True:
@@ -118,35 +124,40 @@ class MyApp(App):
         if self.turn == True:
             self.player1.player_moves1.append(idd)
             moves = self.player1.player_moves1
-            res = self.player1.win(1)
-            self.player1.tie()
+            print(moves)
+            res = self.player1.win(1, app, self.mode)
+            # self.player1.win(1, app, self.mode, self.btns_ids)
+
         elif self.turn == False:
             self.player2.player_moves2.append(idd)
             moves = self.player2.player_moves2
-            res = self.player1.win(2)
-            self.player1.tie()
+            print(moves)
+            res = self.player1.win(2, app, self.mode)
+            # self.player2.win(2, app, self.mode, self.btns_ids)
+
         if res == True:
             self.check_boxes(moves)
+        else:
+            self.player1.tie()
 
     def choose_img(self, samples):
         x_img = ''
         o_img = ''
         if ('0-0' in samples and '0-2' in samples) or ('1-0' in samples and '1-2' in samples) or ('2-0' in samples and '2-2' in samples):
-            x_img = 'imgs/xch'
-            o_img = 'imgs/och'
+            x_img = 'xch'
+            o_img = 'och'
         elif ('0-0' in samples and '2-0' in samples) or ('0-1' in samples and '2-1' in samples) or ('0-2' in samples and '2-2' in samples):
-            x_img = 'imgs/xcv'
-            o_img = 'imgs/ocv'
+            x_img = 'xcv'
+            o_img = 'ocv'
         elif ('0-0' in samples and '2-2' in samples):
-            x_img = 'imgs/xc'
-            o_img = 'imgs/oc'
+            x_img = 'xc'
+            o_img = 'oc'
         elif ('0-2' in samples and '2-0' in samples):
-            x_img = 'imgs/xc2'
-            o_img = 'imgs/oc2'
+            x_img = 'xc2'
+            o_img = 'oc2'
         return [x_img, o_img]
 
     def check_boxes(self, moves):
-        score = Score('win')
         boxes = []
         for move in moves:
             boxes.append(self.get_id(move, get_num=True))
@@ -154,16 +165,18 @@ class MyApp(App):
         for idd in self.btns_ids:
             if idd.text in boxes:
                 if idd.background_normal == 'imgs/x.png':
-                    idd.background_normal = imgs[0]+'.png'
-                    self.winner = 'x'
-                    score.open()
-                    print(f'winner is {self.winner} with SCORE:',
-                          self.player1.score1, self.player1.score2)
+                    idd.background_normal = 'imgs/'+imgs[0]+'.png'
+                    self.open_score('x', self.mode)
                 else:
-                    idd.background_normal = imgs[1]+'.png'
-                    self.winner = 'o'
-                    print(f'winner is {self.winner} with SCORE:',
-                          self.player1.score1, self.player1.score2)
+                    idd.background_normal = 'imgs/'+imgs[1]+'.png'
+                    self.open_score('o', self.mode)
+
+    def open_score(self, winner, mode):
+        score = Score(winner, app, mode)
+        Clock.schedule_once(lambda x: score.open(), 1)
+
+    def exit_game(self, *args):
+        self.stop()
 
 
 if __name__ == '__main__':

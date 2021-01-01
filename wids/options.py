@@ -54,5 +54,6 @@ class OptionTable(Popup):
         self.app.user_choice = symbol
 
     def start_game(self):
-        self.app.draw_net(self.mode) 
-        self.dismiss()
+        if self.app.user_choice != "":
+            self.app.draw_net(self.mode)
+            self.dismiss()
