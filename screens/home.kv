@@ -33,11 +33,12 @@
 				id: btn1
 				xx: -0.8
 				background_normal: ""
-				background_color: [0,0,0,1]
+				background_color: [0,0,0,0]
 				color: [0,0,0,1]
-				text: "soloplayer".upper()
+				text: "solo-player".upper()
 				size_hint_y: None
 				bold: True
+				italic: True
 				font_size: "25sp"
 				height: 50
 				size_hint_x: .8
@@ -47,17 +48,18 @@
 					app.execute_show_options("solo")
 			Button:
 				id: btn2
-				xxx: 1.8
+				xx: 1.8
 				background_normal: ""
-				background_color: [0,0,0,1]
+				background_color: [0,0,0,0]
 				color: [0,0,0,1]
-				text: "multiplayer".upper()
+				text: "multi-player".upper()
 				size_hint_y: None
 				bold: True
+				italic: True
 				font_size: "25sp"
 				height: 50
 				size_hint_x: .8
-				pos_hint: {"top": .65, 'center_x':self.xxx}
+				pos_hint: {"top": .65, 'center_x':self.xx}
 				on_release:
 					app.change_screen('poly', 'up')
 					app.execute_show_options("poly")

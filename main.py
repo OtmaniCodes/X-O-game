@@ -27,11 +27,13 @@ class Multiplayer(Screen):
 class MyApp(App):
     mode = ""
     user_choice = ""
+    all_btns_ids = []
     btns_ids = []
     turn = True
     player1 = TicTacToe()
     player2 = TicTacToe()
     winner = ''
+    found_winner = False
 
     def build(self):
         Window.size = (360, 640)
@@ -43,7 +45,6 @@ class MyApp(App):
         target2 = self.root.ids.home.ids.btn2
         anime = MyAnimation(target1, target2)
         anime.animate_widget()
-
 
     def change_screen(self, sc, way, mode=''):
         if sc == 'home':
@@ -63,53 +64,59 @@ class MyApp(App):
     def draw_net(self, mode):
         self.mode = mode
         net = self.root.ids[mode].ids
-        for f in range(3):
-            for i in range(3):
-                box = BoxLayout(orientation='horizontal', spacing=5)
-                for j in range(3):
-                    btn = Button(text=f'{f}-{j}', background_normal='', color=[0, 0, 0, 0],
-                                 background_down='', background_color=[1, 1, 1, 1])
-                    btn.bind(on_release=self.change_icon)
-                    box.add_widget(btn)
+        for i in range(3):
+            box = BoxLayout(orientation='horizontal', spacing=5)
+            for j in range(3):
+                btn = Button(text=f'{i}-{j}', background_normal='', color=[0, 0, 0, 0],
+                             background_down='', background_color=[1, 1, 1, 1])
+                if not(btn in self.all_btns_ids):
+                    self.all_btns_ids.append(btn)
+                btn.bind(on_release=self.change_icon)
+                box.add_widget(btn)
             net.box.add_widget(box)
 
     def computer_player(self):
-        available_moves = [
-            x for x in self.btns_ids2 if x.background_normal == '']
-        available_moves = list(set(available_moves))
-        move_index = randint(0, len(available_moves))
-        print('available movs:', available_moves)
-        print('len:', len(available_moves))
-        print('index:', move_index)
-        self.change_icon(available_moves[move_index])
+        chosen_btn = ''
+        btns_txt = ['0-0', '0-2', '2-0', '2-2',
+                    '0-1', '1-0', '1-2', '2-1', '1-1']
+        available_btns_ids = [
+            x for x in self.all_btns_ids if x.text in btns_txt]
+        available_btns_to_use = [
+            x for x in available_btns_ids if x.background_normal == '']
+        chosen_btn = available_btns_to_use[randint(
+            0, len(available_btns_to_use)-1)]
+        if chosen_btn != '':
+            self.computer_move(chosen_btn)
+        else:
+            print('no free place!')
+
+    def computer_move(self, chosen_btn):
+        Clock.schedule_once(lambda x: self.change_icon(chosen_btn), 0.5)
 
     def reset_net(self, mode):
         net = self.root.ids[mode].ids.box
         net.clear_widgets()
         self.player1.reset()
         self.player2.reset()
+        self.found_winner = False
 
     def change_icon(self, idd):
         self.btns_ids.append(idd)
-        # self.btns_ids2.remove(idd)
         if self.user_choice == 'x':
             unchecked = 'imgs/x.png'
-            checked = 'imgs/xc.png'
             self.user_choice = 'o'
         elif self.user_choice == 'o':
             unchecked = 'imgs/o.png'
-            checked = 'imgs/oc.png'
             self.user_choice = 'x'
         self.turn = not self.turn
         if idd.background_normal == '':
             idd.background_normal = unchecked
             self.get_id(idd.text)
-        else:
-            pass
-        if self.turn == False and self.mode == 'solo':
+        else: pass
+        if (self.turn == False and self.mode == 'solo') and self.found_winner != True:
             self.computer_player()
 
-    def get_id(self, member, get_num= False):
+    def get_id(self, member, get_num=False):
         ids = {'0-0': 0, '0-1': 1, '0-2': 2, '1-0': 3,
                '1-1': 4, '1-2': 5, '2-0': 6, '2-1': 7, '2-2': 8}
         if get_num == True:
@@ -124,19 +131,18 @@ class MyApp(App):
         if self.turn == True:
             self.player1.player_moves1.append(idd)
             moves = self.player1.player_moves1
-            print(moves)
             res = self.player1.win(1, app, self.mode)
             # self.player1.win(1, app, self.mode, self.btns_ids)
 
         elif self.turn == False:
             self.player2.player_moves2.append(idd)
             moves = self.player2.player_moves2
-            print(moves)
             res = self.player1.win(2, app, self.mode)
             # self.player2.win(2, app, self.mode, self.btns_ids)
 
         if res == True:
             self.check_boxes(moves)
+            self.found_winner = not(self.found_winner)
         else:
             self.player1.tie()
 

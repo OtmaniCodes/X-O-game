@@ -33,12 +33,12 @@ class Score(Popup):
             'top': .9, 'center_x': .5}, font_size='25sp', size_hint=[None, None], bold=True, markup=True)
         self.exit_btn = Button(text="EXIT", background_normal='', background_down='', background_color=[
             1, 1, 1, 1], color=[.2, .4, .4, 1], font_size="18sp", bold=True)
-        self.home_btn = Button(text="HOME", background_normal='', background_down='', background_color=[
+        self.repeat_btn = Button(text="AGAIN", background_normal='', background_down='', background_color=[
             1, 1, 1, 1], color=[.2, .4, .4, 1], font_size="18sp", bold=True)
         self.exit_btn.bind(on_release=self.app.exit_game)
-        self.home_btn.bind(on_release=self.go_home)
+        self.repeat_btn.bind(on_release=self.repeat)
         self.box.add_widget(self.exit_btn)
-        self.box.add_widget(self.home_btn)
+        self.box.add_widget(self.repeat_btn)
         self.float.add_widget(self.statement)
         self.float.add_widget(self.box)
         self.add_widget(self.float)
@@ -50,6 +50,7 @@ class Score(Popup):
             txt = 'we have a tie!'
         return txt
 
-    def go_home(self, *args):
-        self.app.change_screen('home', 'up', self.mode)
+    def repeat(self, *args):
+        self.app.reset_net(self.mode)
+        self.app.draw_net(self.mode)
         self.dismiss()
