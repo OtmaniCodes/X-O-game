@@ -13,7 +13,8 @@ Installation
 ------------
 - to run the app on your machine, all what you need are the prerequisites mentioned above...
 
-<!-- ![ScreenShot1](https://raw.github.com/kivy/kivy-designer/master/kivy_designer.png) -->
+![ScreenShot1](https://github.com/Ahmed-otmani/X-O-game/blob/master/screenshots/scshot1.png)
+![ScreenShot2](https://github.com/Ahmed-otmani/X-O-game/blob/master/screenshots/scshot1.png)
 
 Support
 -------
