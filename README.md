@@ -13,8 +13,14 @@ Installation
 ------------
 - to run the app on your machine, all what you need are the prerequisites mentioned above...
 
+ScreenShots:
+------------
+
 ![ScreenShot1](https://github.com/Ahmed-otmani/X-O-game/blob/master/screenshots/scshot1.png)
-![ScreenShot2](https://github.com/Ahmed-otmani/X-O-game/blob/master/screenshots/scshot1.png)
+
+![ScreenShot2](https://github.com/Ahmed-otmani/X-O-game/blob/master/screenshots/scshot2.png)
+
+![ScreenShot3](https://github.com/Ahmed-otmani/X-O-game/blob/master/screenshots/scshot3.png)
 
 Support
 -------
