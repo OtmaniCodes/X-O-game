@@ -12,14 +12,21 @@
 			pos_hint: {"x":.01, "top":.99}
 			size_hint: [None, None]
 			height: 40
-			width: 80
-			text: "Go Back"
-			color: [0,0,0,1] if self.state != 'down' else utils.get_color_from_hex("#847878")
-			background_normal: ''
-			background_down: ''
-			background_color: utils.get_color_from_hex("#847878")
+			width: 40
+			bold: True
+			background_normal: 'imgs/back.png'
 			on_release:
 				app.change_screen('home', 'down', 'solo')
+		Button:
+			pos_hint: {"x":.13, "top":.99}
+			size_hint: [None, None]
+			height: 40
+			width: 40
+			bold: True
+			background_normal: 'imgs/loop.png'
+			on_release:
+				app.reset_net('solo')
+				app.draw_net('solo')
 		BoxLayout:
 			id: box
 			orientation: "vertical"

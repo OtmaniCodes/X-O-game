@@ -5,7 +5,7 @@ Prerequisites
 -------------
 
 - [Kivy >= 1.9.1](http://kivy.org/#download)
-- Python version must not be over 3.7.4 (greater versions don not support kivy YET):
+- Python version must not be over 3.7.4 (greater versions do not support kivy YET):
     - [Python 3.7.4](https://www.python.org/downloads/release/python-374/)
 
 
@@ -13,7 +13,7 @@ Installation
 ------------
 - to run the app on your machine, all what you need are the prerequisites mentioned above...
 
-<!-- ![ScreenShot](https://raw.github.com/kivy/kivy-designer/master/kivy_designer.png) -->
+<!-- ![ScreenShot1](https://raw.github.com/kivy/kivy-designer/master/kivy_designer.png) -->
 
 Support
 -------
@@ -43,5 +43,5 @@ IRC channel:
 License
 -------
 
-X-O game is released under the terms of the MIT License. Please refer to the
+X-O game is developed by Ahmed El Otmani and released under the terms of the MIT License. Please refer to the
 LICENSE file.

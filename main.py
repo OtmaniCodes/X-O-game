@@ -79,12 +79,15 @@ class MyApp(App):
         chosen_btn = ''
         btns_txt = ['0-0', '0-2', '2-0', '2-2',
                     '0-1', '1-0', '1-2', '2-1', '1-1']
-        available_btns_ids = [
-            x for x in self.all_btns_ids if x.text in btns_txt]
-        available_btns_to_use = [
-            x for x in available_btns_ids if x.background_normal == '']
-        chosen_btn = available_btns_to_use[randint(
-            0, len(available_btns_to_use)-1)]
+        available_btns_ids = [x for x in self.all_btns_ids if x.text in btns_txt]
+        available_btns_to_use = [x for x in available_btns_ids if (x.background_normal == '') and (x not in self.btns_ids)]
+        end = len(available_btns_to_use)-1
+        if end >= 0:
+            pass
+        else:
+            end = 0
+        print(end)
+        chosen_btn = available_btns_to_use[randint(0, end)]
         if chosen_btn != '':
             self.computer_move(chosen_btn)
         else:
@@ -142,7 +145,7 @@ class MyApp(App):
 
         if res == True:
             self.check_boxes(moves)
-            self.found_winner = not(self.found_winner)
+            self.found_winner = True
         else:
             self.player1.tie()
 
