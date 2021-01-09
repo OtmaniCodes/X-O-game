@@ -21,24 +21,23 @@ class Score(Popup):
         self.pos_hint = {'center_x': 0.5, "top": .7}
         self.height = 250
         self.width = 310
-        self.auto_dismiss = False
+        self.auto_dismiss = True
         # separator
         self.separator_color = [1, 1, 1, 1]
         self.separator_height: 10
         # content
         self.float = FloatLayout(size_hint=[1, 1], pos_hint={'top': 1})
-        self.box = BoxLayout(size_hint_y=.25, padding=10, spacing=10, pos_hint={
-                             'top': .32, 'center_x': .5}, orientation='horizontal')
+        self.box = BoxLayout(size_hint_y=.25, padding=10, spacing=5, pos_hint={
+                             'top': .32, 'center_x': .5}, orientation='vertical')
         self.statement = Label(text=self.get_txt().upper(), pos_hint={
             'top': .9, 'center_x': .5}, font_size='25sp', size_hint=[None, None], bold=True, markup=True)
+        self.dismiss_lbl = Label(text="touch the screen to dismiss!", color=[1,0,0,1],
+        font_size="15sp", bold=True, size_hint_y=None)
         self.exit_btn = Button(text="EXIT", background_normal='', background_down='', background_color=[
-            1, 1, 1, 1], color=[.2, .4, .4, 1], font_size="18sp", bold=True)
-        self.repeat_btn = Button(text="AGAIN", background_normal='', background_down='', background_color=[
-            1, 1, 1, 1], color=[.2, .4, .4, 1], font_size="18sp", bold=True)
+            1, 1, 1, 1], color=[.2, .4, .4, 1], font_size="18sp", bold=True, italic=True)
         self.exit_btn.bind(on_release=self.app.exit_game)
-        self.repeat_btn.bind(on_release=self.repeat)
+        self.box.add_widget(self.dismiss_lbl)
         self.box.add_widget(self.exit_btn)
-        self.box.add_widget(self.repeat_btn)
         self.float.add_widget(self.statement)
         self.float.add_widget(self.box)
         self.add_widget(self.float)
@@ -49,8 +48,3 @@ class Score(Popup):
         else:
             txt = 'we have a tie!'
         return txt
-
-    def repeat(self, *args):
-        self.app.reset_net(self.mode)
-        self.app.draw_net(self.mode)
-        self.dismiss()

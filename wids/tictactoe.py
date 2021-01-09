@@ -32,19 +32,16 @@ class TicTacToe:
         return False
 
 
-        # try this:  
+        # TO-DO: fixing and using this block of code instead of the one aboce...  
         
         # count = 0
         # wanted_line = ''
+        # btns_nums = []
+        
         # btn_ids_txts = []
         # for one in btn_ids:
         #     btn_ids_txts.append(one.text)
-        # # btns_nums = map(lambda x: self.app.get_id(x), btn_ids_txts)
-
-        # btns_nums = []
-        # for _ in btn_ids_txts:
-        #     btns_nums.append(self.app.get_id(_))
-
+        # btns_nums = map(lambda x: self.app.get_id(x), btn_ids_txts)
         # print(btn_ids_txts)
         # print(btns_nums)
         # for case in winning_cases:

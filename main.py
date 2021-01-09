@@ -187,6 +187,9 @@ class MyApp(App):
     def exit_game(self, *args):
         self.stop()
 
+    def dismiss_score(self, obj):
+        obj.dismiss()
+
 
 if __name__ == '__main__':
     app = MyApp()
