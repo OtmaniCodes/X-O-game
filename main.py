@@ -81,17 +81,13 @@ class MyApp(App):
                     '0-1', '1-0', '1-2', '2-1', '1-1']
         available_btns_ids = [x for x in self.all_btns_ids if x.text in btns_txt]
         available_btns_to_use = [x for x in available_btns_ids if (x.background_normal == '') and (x not in self.btns_ids)]
-        end = len(available_btns_to_use)-1
-        if end >= 0:
-            pass
-        else:
-            end = 0
-        print(end)
-        chosen_btn = available_btns_to_use[randint(0, end)]
+        if len(available_btns_to_use) >= 1:
+            chosen_btn = available_btns_to_use[randint(0, len(available_btns_to_use)-1)]
         if chosen_btn != '':
             self.computer_move(chosen_btn)
         else:
             print('no free place!')
+        print(available_btns_to_use, '\n', len(available_btns_to_use))
 
     def computer_move(self, chosen_btn):
         Clock.schedule_once(lambda x: self.change_icon(chosen_btn), 0.5)
@@ -102,6 +98,11 @@ class MyApp(App):
         self.player1.reset()
         self.player2.reset()
         self.found_winner = False
+        self.turn = True
+        self.mode = ''
+        self.btns_ids.clear()
+        self.all_btns_ids.clear()
+        self.user_choice = ''
 
     def change_icon(self, idd):
         self.btns_ids.append(idd)

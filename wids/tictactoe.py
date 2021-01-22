@@ -64,7 +64,9 @@ class TicTacToe:
 
     def reset(self):
         # resets everything
-        self.player_moves1 = []
-        self.player_moves2 = []
+        self.player_moves1.clear()
+        self.player_moves2.clear()
         self.crossed_boxs = 0
         self.uncrossed_boxs = 9
+        self.winner = ''
+        self.app = ''
