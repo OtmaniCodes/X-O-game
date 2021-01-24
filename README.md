@@ -50,4 +50,4 @@ IRC channel:
 License
 -------
 
-X-O game is developed by Ahmed El Otmani
+X-O game is developed by Ahmed El Otmani.
