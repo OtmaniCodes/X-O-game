@@ -47,7 +47,7 @@ IRC channel:
 * Port    : 6667, 6697 (SSL only)
 * Channel : #kivy-dev
 
-License
+Developer
 -------
 
 X-O game is developed by Ahmed El Otmani.
