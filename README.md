@@ -1,6 +1,8 @@
 X-O Game
 =============
 
+[SEE THE APP ON YOUTUBE](https://www.youtube.com/watch?v=HZDCu0uqsYk&t=37s)
+
 Prerequisites
 -------------
 
